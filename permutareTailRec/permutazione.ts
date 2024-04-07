@@ -1,29 +1,24 @@
 /** Restituisce tutte le possibili permutazioni di un array. */
-function permutazioni(array: string[]): (string[][]) {
+function perm(arr: string[], accum: string[][] = [[]]): string[][] {  // accum è un insieme di permutazioni
+  if (arr.length === 0) {
+    return accum;
+  };
+  
+  let r: string = arr[arr.length - 1];  // prendo l'ultimo elemento di arr.
+  let res: string[][] = [];  // array vuoto a cui aggiungere le nuove permutazioni
 
-  function perm(arr: string[], accum: string[][] = [[]]): string[][] {  // accum è un insieme di permutazioni
-    if (arr.length === 0) {
-      return accum;
-    };
-    
-    let r: string = arr[arr.length - 1];  // prendo l'ultimo elemento di arr.
-    let res: string[][] = [];  // array vuoto a cui aggiungere le nuove permutazioni
-
-    for (let i = 0; i < accum.length; i++) {
-      for (let j = 0; j < accum[i].length + 1; j++) {
-        const tempInternalArray = [...accum[i]];
-        tempInternalArray.splice(j, 0, r);
-        res.push(tempInternalArray);
-      }
-    };
-
-    return perm(arr.slice(0, -1), res);
+  for (let i = 0; i < accum.length; i++) {
+    for (let j = 0; j < accum[i].length + 1; j++) {
+      const tempInternalArray = [...accum[i]];
+      tempInternalArray.splice(j, 0, r);
+      res.push(tempInternalArray);
+    }
   };
 
-  return perm(array);
-}
+  return perm(arr.slice(0, -1), res);
+};
 
-console.log(permutazioni(['a', 'b', 'c', 'd']));
+console.log(perm(['a', 'b', 'c', 'd']));
 
 
 
