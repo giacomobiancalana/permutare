@@ -20,8 +20,6 @@ function perm(arr: string[], accum: string[][] = [[]]): string[][] {  // accum �
   return perm(arr.slice(1), res);
 };
 
-//console.log(perm(['a', 'b', 'c', 'd']));
-
 /** Restituisce tutte le possibili permutazioni di un array. */
 function permLoop(arr: string[]): string[][] {  // accum è un insieme di permutazioni
   let accum: string[][] = [[]];
@@ -41,14 +39,16 @@ function permLoop(arr: string[]): string[][] {  // accum è un insieme di permut
   return accum;
 };
 
+const arrayDiProva = ['a', 'b', 'c', 'd', 'e']; // Massimo 10 elementi, sennò JS STACK TRACE
+
 console.time('perm tail recursive');
-const permTailRes = perm(['a', 'b', 'c', 'd', 'e']);
-console.log("perm tail recursive:\n",permTailRes);
+const permTailRes = perm(arrayDiProva);
+// console.log("perm tail recursive:\n",permTailRes);
 console.timeEnd('perm tail recursive');
 
 console.time('perm loop');
-const permLoopRes = permLoop(['a', 'b', 'c', 'd', 'e']);
-console.log("per loop:\n", permLoopRes);
+const permLoopRes = permLoop(arrayDiProva);
+// console.log("per loop:\n", permLoopRes);
 console.timeEnd('perm loop');
 
 //TODO: funzione per controllare i risultati
