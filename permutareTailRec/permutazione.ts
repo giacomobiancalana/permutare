@@ -1,10 +1,12 @@
+// POSSIBILE MEMOIZATION ?? CREDO DI NO
+
 /** Restituisce tutte le possibili permutazioni di un array. */
 function perm(arr: string[], accum: string[][] = [[]]): string[][] {  // accum è un insieme di permutazioni
   if (arr.length === 0) {
     return accum;
   };
   
-  let r: string = arr[arr.length - 1];  // prendo l'ultimo elemento di arr.
+  let r: string = arr[0];  // prendo l'ultimo elemento di arr.
   let res: string[][] = [];  // array vuoto a cui aggiungere le nuove permutazioni
 
   for (let i = 0; i < accum.length; i++) {
@@ -15,11 +17,48 @@ function perm(arr: string[], accum: string[][] = [[]]): string[][] {  // accum �
     }
   };
 
-  return perm(arr.slice(0, -1), res);
+  return perm(arr.slice(1), res);
 };
 
-console.log(perm(['a', 'b', 'c', 'd']));
+//console.log(perm(['a', 'b', 'c', 'd']));
 
+/** Restituisce tutte le possibili permutazioni di un array. */
+function permLoop(arr: string[]): string[][] {  // accum è un insieme di permutazioni
+  let accum: string[][] = [[]];
+  
+  for (const r of arr) {
+    let res: string[][] = [];  // array vuoto a cui aggiungere le nuove permutazioni
+    for (let i = 0; i < accum.length; i++) {
+      for (let j = 0; j < accum[i].length + 1; j++) {
+        const tempInternalArray = [...accum[i]];
+        tempInternalArray.splice(j, 0, r);
+        res.push(tempInternalArray);
+      }
+    };
+    accum = res;
+  }
+
+  return accum;
+};
+
+console.time('perm tail recursive');
+const permTailRes = perm(['a', 'b', 'c', 'd', 'e']);
+console.log("perm tail recursive:\n",permTailRes);
+console.timeEnd('perm tail recursive');
+
+console.time('perm loop');
+const permLoopRes = permLoop(['a', 'b', 'c', 'd', 'e']);
+console.log("per loop:\n", permLoopRes);
+console.timeEnd('perm loop');
+
+//TODO: funzione per controllare i risultati
+// Questa sotto per controllare va bene perché ho costruito i due array con lo stesso ordine
+console.log(JSON.stringify(permTailRes) === JSON.stringify(permLoopRes));
+// Altrimenti, se avessi due array di array con un ordinamento diverso ma dovessero avere gli stessi elementi,
+// dovrei scrivere una funzione che controlli tutti gli elementi del primo per vedere se esistano nel secondo
+// (e semmai li toglierei dal secondo per metterli in un'altra variabile) e appena uno non ci sia sul secondo, darei errore.
+// Se finita la lista di elementi del primo non avessi nessun errore, allora controllerei se sul secondo rimanga
+// qualche elemento: se sì, allora darei errore. Altrimenti, vorrebbe dire che i due array di array sono uguali.
 
 
 /** 
